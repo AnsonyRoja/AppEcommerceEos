@@ -21,7 +21,7 @@ import 'package:Pide/pide_icons.dart';
       child: IconButton(
         padding: const EdgeInsets.only(bottom: 6.00),
         //icon: Icon(Pide.play_circle_filled,size: 40,),
-        icon: Icon(Pide.play_circle_filled,size: 40,),
+        icon: const Icon(Pide.play_circle_filled,size: 40,),
         color: Color(colorRojo),
         onPressed: () {
           Navigator.pop(context);
@@ -36,7 +36,7 @@ btnAtras3(context){
     angle:  180 * pi/180,
     child: IconButton(
 
-      icon: Icon(Pide.play_circle_filled,size: 35,),
+      icon: const Icon(Icons.play_circle_filled,size: 35,),
       color: Color(colorRojo),
       onPressed: () {
         Navigator.pop(context);
@@ -76,10 +76,10 @@ rUrl(String value){
     return value.replaceAll("\\", "/");
 }
   logoBio(){
-    return Image (image: AssetImage("assets/images/logo_peque.png"), height: 130.00,);
+    return const Image (image: AssetImage("assets/images/logo_peque.png"), height: 130.00,);
   }
   imagenFondo(){
-    return BoxDecoration(
+    return const BoxDecoration(
         image: DecorationImage(
             image: AssetImage("assets/images/fondo_login.png"),
             fit: BoxFit.cover,
@@ -87,8 +87,8 @@ rUrl(String value){
     );
   }
   espaciadoTop(){
-    return Padding(
-      padding: const EdgeInsets.only(
+    return const Padding(
+      padding: EdgeInsets.only(
         left: 40,
         top: 20,
         right: 40,
@@ -99,8 +99,8 @@ rUrl(String value){
   topFormularios(String texto){
 
     return Center(child: Container(
-        padding: EdgeInsets.only(top:30),
-        child:Text(texto,textAlign: TextAlign.center,style: TextStyle(color: Color(0xff28b67a), fontSize: 18.00))
+        padding: const EdgeInsets.only(top:30),
+        child:Text(texto,textAlign: TextAlign.center,style: const TextStyle(color: Color(0xff28b67a), fontSize: 18.00))
     ),);
   }
 topCompletoLogin(context,String texto){
@@ -118,14 +118,14 @@ topLoginB(String texto){
       children: <Widget>[
 
   logoBio(),
-  Padding(padding: const EdgeInsets.only(bottom: 30.0),),
+  const Padding(padding: EdgeInsets.only(bottom: 30.0),),
   Center(child: Text(texto, style: TextStyle(color:Color(colorRojo), fontSize: 22, fontWeight: FontWeight.bold),),),
-  Padding(padding: const EdgeInsets.only(bottom:20.0),),
+  const Padding(padding: EdgeInsets.only(bottom:20.0),),
       ],
     );
 }
 subTituloLogin(String texto){
-  return Text(texto,textAlign: TextAlign.center,style: TextStyle(color: Color(0xff28b67a), fontSize: 18.00),);
+  return Text(texto,textAlign: TextAlign.center,style: const TextStyle(color: Color(0xff28b67a), fontSize: 18.00),);
 }
 getRecordarClave() async {
    Map recuerdo= {};
@@ -245,7 +245,7 @@ peticionGet(url) async {
     var uri = Uri.parse(url);
     final response = await http.get(
         uri, headers: {"Accept": "application/json"}).timeout(
-        Duration(seconds: 20),);
+        const Duration(seconds: 20),);
     print(response.body);
     if (response.statusCode == 200 || response.statusCode ==409) {
       return jsonDecode(response.body);
@@ -276,12 +276,12 @@ titleBio(texto){
 }
 
 btnCarrito(bool actualizar){
-  return Stack(children: <Widget>[Icon(Pide.shopping_cart),Padding(padding: EdgeInsets.only(top:8,left: 14),child: CantCarrito(actualizar: actualizar,))],);
+  return Stack(children: <Widget>[const Icon(Icons.shopping_cart),Padding(padding: const EdgeInsets.only(top:8,left: 14),child: CantCarrito(actualizar: actualizar,))],);
   //return Icon(Pide.shopping_cart);
 
 }
 btnCarritob(){
-  return Stack(children: <Widget>[Icon(Pide.shopping_cart),Padding(padding: EdgeInsets.only(top:8,left: 14),child: CantCarritob())],);
+  return const Stack(children: <Widget>[Icon(Icons.shopping_cart),Padding(padding: EdgeInsets.only(top:8,left: 14),child: CantCarritob())],);
   //return Icon(Pide.shopping_cart);
 
 }
@@ -299,7 +299,7 @@ peticionPost(url, Map<String, String> body) async {
     var uri = Uri.parse(url);
     final response = await http.post(
         uri, headers: {"Accept": "application/json"},body:body).timeout(
-        Duration(seconds: 20));
+        const Duration(seconds: 20));
     print(response.body);
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
@@ -338,7 +338,7 @@ msj(String msj){
 
 
 noInternet(){
-    return Center(child: Text("Verifique su conexión a internet",style: TextStyle(color: Colors.red),),);
+    return const Center(child: Text("Verifique su conexión a internet",style: TextStyle(color: Colors.red),),);
 }
 validar(tipo,String value,bool obligatorio){
   Map exp;
@@ -509,12 +509,13 @@ int idUsuario=1;
 }
 setCarrito(int idProducto,int cant) async{
   Map carrito= {};
-  //print("Agregado al carrito $idProducto $cant");
+  
+  print("Agregado al carrito $idProducto $cant");
 
-
-  carrito= await jsonDecode(await getData('carrito'));
-  print(carrito);
-  if(carrito['productos']==null){
+  
+  carrito = jsonDecode(await getData('carrito'));
+  print('Esto es el carrito $carrito');
+  if(carrito.isEmpty){
     Map productos= {};
     productos["$idProducto"]=cant;
     carrito['productos']=productos;
@@ -539,7 +540,9 @@ setOtroCarrito(String id,String valor) async{ //Ejemplo, metodos de pago, direcc
 }
 
 getCarrito()async{
+
   return jsonDecode(await getData('carrito'));
+  
   }
 delCarrito()async {
   await delData('carrito');
@@ -578,7 +581,7 @@ colorStatus(os_id){
 }
 InkWell link(String texto,String link,context){
   return InkWell(
-    child: Text(texto, style: TextStyle(fontWeight: FontWeight.bold ,color: Colors.green)),
+    child: Text(texto, style: const TextStyle(fontWeight: FontWeight.bold ,color: Colors.green)),
     onTap: () {
 
         Navigator.pushNamed(context, link);
@@ -587,7 +590,7 @@ InkWell link(String texto,String link,context){
 }
 InkWell linkGrande(String texto,String link,context){
   return InkWell(
-    child: Text(texto, style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20 ,color: Colors.green)),
+    child: Text(texto, style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 20 ,color: Colors.green)),
     onTap: () {
 
         Navigator.pushNamed(context, link);

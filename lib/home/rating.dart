@@ -31,13 +31,13 @@ class _ratingState extends State<Rating> {
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    final int? produ = widget.products_id;
     if (_calificado == false) {
       _miRating = double.parse(widget.calificado_por_mi!);
     }
-    final String produ = widget.products_id.toString();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: (double.parse(widget.calificado_por_mi!) > 0 || _calificado == true) ? [_estrellas()] : [_estrellas()],
+      children: (double.parse(widget.calificado_por_mi!) > 0 || _calificado == true) ? [_estrellas(produ)] : [_estrellas(produ)],
     );
   }
 
@@ -65,14 +65,14 @@ class _ratingState extends State<Rating> {
     );
   }
 
-  _estrellas() {
+  _estrellas(produ) {
     return RatingBar.builder(
       allowHalfRating: false,
       itemCount: 5,
       minRating: 1,
        unratedColor: Colors.amber.withAlpha(50),
       initialRating: _miRating,
-      itemSize: 50.0,
+      itemSize: 20.0,
           itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
       itemBuilder: (context, _) => Icon(
              Icons.star,
@@ -82,7 +82,10 @@ class _ratingState extends State<Rating> {
              onRatingUpdate: (rating) {
             setState(() {
               _miRating = rating;
+
             });
+              calificarProducto(context, produ);
+            print('Esta es la opinion $opinion');
           },
           updateOnDrag: true,
 
@@ -98,8 +101,8 @@ class _ratingState extends State<Rating> {
       minRating: 1,
        unratedColor: Colors.amber.withAlpha(50),
       initialRating: _miRating,
-      itemSize: 50.0,
-          itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+      itemSize: 20.0,
+      itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
       itemBuilder: (context, _) => Icon(
              Icons.star,
             color: Colors.amber,
@@ -107,8 +110,10 @@ class _ratingState extends State<Rating> {
           ),
              onRatingUpdate: (rating) {
             setState(() {
-              _miRating = rating;
+              _miRating = otro;
             });
+
+            
           },
           updateOnDrag: true,
 
@@ -122,9 +127,9 @@ class _ratingState extends State<Rating> {
     guardarCalificacion(products_id);
     showDialog(
         context: context,
-        builder: (_) => new AlertDialog(
+        builder: (_) => AlertDialog(
               title: Column(
-                children: <Widget>[Text("Gracias por calificar a: " + widget.nombre!), estrellas(rating)],
+                children: <Widget>[Text("Gracias por calificar a: ${widget.nombre!}"), estrellas(rating)],
               ),
               content: Form(
                 key: _formKey,
@@ -145,12 +150,12 @@ class _ratingState extends State<Rating> {
                 ),
               ),
               actions: <Widget>[
-                new TextButton(
+                TextButton(
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: new Text('Cancelar')),
-                new TextButton(
+                    child: Text('Cancelar')),
+                TextButton(
                     onPressed: () async {
                       print("Calificado");
                       if (_formKey.currentState!.validate()) {
@@ -185,6 +190,7 @@ class _ratingState extends State<Rating> {
     String url;
     String datos = 'guardarCalificacion&products_id=' + widget.products_id.toString() + '&rating=' + rating.round().toString();
     url = await UrlLogin(datos);
+    print('Url Guardar calificacion $url');
     var uri = Uri.parse(url);
     final response = await http.get(
       uri,

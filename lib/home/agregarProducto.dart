@@ -1,3 +1,5 @@
+import 'package:Pide/widget/add_carrito.dart';
+
 import '../blocks/auth_block.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -25,8 +27,8 @@ class _AgregarProductoState extends State<AgregarProducto> {
   int _pedidoMax = 0;
 
   bool cargado = false;
-  final formatDolar = new NumberFormat.simpleCurrency(locale: 'en_US', decimalDigits: 2);
-  final formatBolivar = new NumberFormat.simpleCurrency(locale: 'es_ES', name: 'Bs', decimalDigits: 2);
+  final formatDolar =  NumberFormat.simpleCurrency(locale: 'en_US', decimalDigits: 2);
+  final formatBolivar =  NumberFormat.simpleCurrency(locale: 'es_ES', name: 'Bs', decimalDigits: 2);
 
   bool _rojoStock = false;
   Color _colorStock = Colors.black;
@@ -50,7 +52,9 @@ class _AgregarProductoState extends State<AgregarProducto> {
 
               
 
-            if (obj.data['productos'] != null) {
+                print('Esto es el obj $obj');
+            
+            if (obj.data != null  && obj.data['productos'] != null) {
               if (obj.data['productos'][widget.id.toString()] != null) {
                 _cant = obj.data['productos'][widget.id.toString()];
 
@@ -81,20 +85,25 @@ class _AgregarProductoState extends State<AgregarProducto> {
                 //),
                 ),
             TextButton(
-                child: Icon(Pide.do_not_disturb_on),
+                child: const Icon(Icons.remove),
                 onPressed: () async {
+                  setState(()  {
+                    
+                
                   if (_cant > 0) {
                     _rojoStock = false;
                     _colorStock = Colors.black;
-
+                    print('Entre aqui');
                     _cant--;
                     _stock++;
                     _dolar = formatDolar.format((widget.precioDolar * _cant));
                     _bolivar = formatBolivar.format((widget.precioBolivar * _cant));
                     //productos[widget.id] = _cant;
-                    await setCarrito(widget.id, _cant);
+                     setCarrito(widget.id, _cant);
+
                     proveedor.actualizar();
                   }
+                    });
                   if (_pedidoMax > _cant) {
                     if (_rojoMaximo) {
                       _rojoMaximo = false;
@@ -102,19 +111,19 @@ class _AgregarProductoState extends State<AgregarProducto> {
                     }
                   }
                 }),
-            Icon(
-              Pide.shopping_cart,
+            const Icon(
+              Icons.card_travel,
               size: 16,
             ),
             Text(
               "$_cant",
-              style: TextStyle(fontSize: 21),
+              style: const TextStyle(fontSize: 21),
             ),
             TextButton(
-              child: Icon(Pide.add_circle),
+              child: const Icon(Icons.plus_one_sharp),
               onPressed: () async {
                 if (_stock > 0 && (_pedidoMax > _cant || widget.pedidoMax == 0) && widget.stock > _cant) {
-                  //setState(() async {
+                  setState(()  {
 
                   if (_cant >= 0) {
                     _cant++;
@@ -122,11 +131,11 @@ class _AgregarProductoState extends State<AgregarProducto> {
                     _stock--;
                     _dolar = formatDolar.format((widget.precioDolar * _cant));
                     _bolivar = formatBolivar.format((widget.precioBolivar * _cant));
-                    await setCarrito(widget.id, _cant);
+                     setCarrito(widget.id, _cant);
                     proveedor.actualizar();
                     // productos[widget.id] = _cant;
                   }
-                  // });
+                  });
                 }
 
                 if (_stock == 0 || widget.stock == _cant) {

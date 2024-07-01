@@ -83,7 +83,7 @@ class _CartListState extends State<Carrito> with TickerProviderStateMixin {
 
     return DefaultTabController(
         length: 2,
-        child: new Scaffold(
+        child:  Scaffold(
           appBar: AppBar(
             leading: leadingBio(context),
             title: titleBio('Carrito de compras'),
@@ -98,10 +98,10 @@ class _CartListState extends State<Carrito> with TickerProviderStateMixin {
             ],
             bottom: TabBar(controller: _tabController, indicatorColor: Color(colorRojo), tabs: [
               Tab(
-                icon: Icon(Pide.shopping_cart),
+                icon: Icon(Icons.shopping_cart),
               ),
               Tab(
-                icon: Icon(Pide.local_shipping),
+                icon: Icon(Icons.local_shipping),
               ),
               //Tab(icon: Icon(Pide.payment),),
             ]),
@@ -116,12 +116,13 @@ class _CartListState extends State<Carrito> with TickerProviderStateMixin {
                 builder: (BuildContext context, AsyncSnapshot<Map> projectSnap) {
                   switch (projectSnap.connectionState) {
                     case ConnectionState.waiting:
-                      return new Center(
+                      print('Esto es el projectSnap Nuevo ${projectSnap}');
+                      return Center(
                         child: CircularProgressIndicator(),
                       );
                     default:
                       if (projectSnap.hasError)
-                        return new Text('Error: ${projectSnap.error}');
+                        return Text('Error: ${projectSnap.error}');
                       else
                         return cargarCarrito(projectSnap.data, proveedor);
                   }

@@ -18,12 +18,11 @@ class _IconoCarritoState extends State<IconoCarrito> {
     final proveedor = Provider.of<AuthBlock>(context);
     return Container(
        child: IconButton(
-color: Color(colorVerde),
+    color: Color(colorVerde),
     icon:Stack(
-      
       children: <Widget>[
-      Icon(Pide.shopping_cart,),
-      Padding(padding: EdgeInsets.only(top:8,left: 10),child:
+      const Icon(Icons.shopping_cart,),
+      Padding(padding: const EdgeInsets.only(top:8,left: 10),child:
     Container(
         width: 17.0,
         height: 17.0,
@@ -31,7 +30,7 @@ color: Color(colorVerde),
        
         
         // padding: const EdgeInsets.all(3.0),//I used some padding without fixed width and height
-        decoration: new BoxDecoration(
+        decoration: BoxDecoration(
 
           shape: BoxShape.circle,
           // You can use like this way or like the below line
@@ -42,8 +41,9 @@ color: Color(colorVerde),
         FutureBuilder(
             future: proveedor.cantCarrito(),
             builder: (context, projectSnap) {
+              print('Esto es el projectSnap carrito ${projectSnap}');
               if(projectSnap.data==0){
-                return Text('');
+                return const Text('');
               }else {
                 if(projectSnap.data!=null) {
                   if (int.parse(projectSnap.data.toString()) > 0) {
@@ -54,7 +54,7 @@ color: Color(colorVerde),
                 }else{
                   cant=0;
                 }
-                return Text(cant.toString(), style: TextStyle(color: Colors.white,
+                return Text(cant.toString(), style: const TextStyle(color: Colors.white,
                     fontSize: 10.0));
               }
             }

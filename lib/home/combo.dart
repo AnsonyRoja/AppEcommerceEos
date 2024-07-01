@@ -45,8 +45,8 @@ class _ComboState extends State<Combo> {
                 width: double.infinity,
                 height: 260,
                 child: Galeria(
-                  galleryItems: json.decode(args.image!),
-                  imagenPrevia: args.imagenPrevia,
+                  galleryItems: [args.image],
+                  imagenPrevia: args.imagenPrevia!,
                 ),
               ),
               Padding(

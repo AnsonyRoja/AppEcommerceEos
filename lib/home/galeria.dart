@@ -6,14 +6,23 @@ import 'package:photo_view/photo_view_gallery.dart';
 import 'package:Pide/pide_icons.dart';
 
 class Galeria extends StatefulWidget {
-  final List? galleryItems;
-  final String? imagenPrevia;
-  const Galeria({Key? key, this.galleryItems, this.imagenPrevia}) : super(key: key);
+  final List galleryItems;
+  final String imagenPrevia;
+  const Galeria({Key? key, required this.galleryItems, required this.imagenPrevia}) : super(key: key);
 
   @override
   _GaleriaState createState() => _GaleriaState();
 }
 class _GaleriaState extends State<Galeria> {
+
+
+
+@override
+  void initState() {
+
+    print('Me monte en la galeria');
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,14 +30,14 @@ class _GaleriaState extends State<Galeria> {
         child: PhotoViewGallery.builder(
           scrollPhysics: const BouncingScrollPhysics(),
           builder: (BuildContext context, int index) {
-            print("$BASE_URL_IMAGEN"+widget.galleryItems![index]);
+            print('esta es la url ${widget.galleryItems[index]}');
             return PhotoViewGalleryPageOptions(
-              imageProvider: NetworkImage("$BASE_URL_IMAGEN"+widget.galleryItems![index], ),//AssetImage(),
+              imageProvider: NetworkImage(widget.galleryItems[index], ),//AssetImage(),
               initialScale: PhotoViewComputedScale.contained * 1.1,
               //heroAttributes: HeroAttributes(tag: widget.galleryItems[index].id),
             );
           },
-          itemCount: widget.galleryItems!.length,
+          itemCount: widget.galleryItems.length,
           loadingBuilder: (context, event) =>
               Center(
                 child: Stack(
@@ -37,9 +46,9 @@ class _GaleriaState extends State<Galeria> {
 
                     CachedNetworkImage(
                       //  color: Colors.white,
-                      height: 200,
+                      height: 150,
                       fit: BoxFit.cover,
-                      imageUrl: widget.imagenPrevia!,
+                      imageUrl: widget.imagenPrevia,
 
                       placeholder: (context, url) => Center(
                           child: CircularProgressIndicator()
@@ -50,16 +59,8 @@ class _GaleriaState extends State<Galeria> {
                       padding: EdgeInsets.only(bottom: 180,left: 290),
                       child: Text("HD",style: TextStyle(color: Colors.black45),),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(bottom: 180,left: 290),
-                      child: Center(child: CircularProgressIndicator(
-                        value: event == null
-                            ? 0
-                            : event.cumulativeBytesLoaded /
-                            event.expectedTotalBytes!,
-                      ),),
-                    )
-                    ,
+                    
+                    
                   ],
                 )
 

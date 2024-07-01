@@ -14,5 +14,5 @@ class Products {
   int? pedidoMax;
   String? image_previa;
 
-  Products({this.image_previa,this.name='', this.precio='', this.image='', this.rating=0.00,this.description_short='',this.id,this.evento,this.calificado_por_mi,this.precioBolivar,this.precioDolar,this.stock,this.pedidoMax,this.promocion});
+  Products({this.image_previa,this.name='', this.precio= "", this.image='', this.rating=0.00,this.description_short='',this.id,this.evento,this.calificado_por_mi,this.precioBolivar,this.precioDolar,this.stock,this.pedidoMax,this.promocion});
 }

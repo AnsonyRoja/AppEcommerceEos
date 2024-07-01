@@ -23,6 +23,8 @@ class Favorites{
     Map no;
     String dataFavorito=await getData('favoritos');
 
+    print('Este producto es un favorito $dataFavorito');
+
     if(dataFavorito!=null){
       res=jsonDecode(dataFavorito);
       print("SI ES FAVORITO");

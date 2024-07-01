@@ -147,7 +147,7 @@ class HomeState extends State<Home> {
         childWidget = projectSnap.data as Widget;
       } else {
         // Manejar otros tipos de datos que pueda devolver vista()
-        childWidget = Text('Datos no esperados');
+        childWidget = const Text('Datos no esperados');
       }
       return WillPopScope(
         child: childWidget,
@@ -228,19 +228,19 @@ class HomeState extends State<Home> {
   }
 
   _modalSalir(String value) {
-    return new AlertDialog(
-      title: new Text('Confirmación'),
-      content: new Text(
+    return AlertDialog(
+      title: const Text('Confirmación'),
+      content: Text(
         value,
-        style: new TextStyle(fontSize: 25.0),
+        style: const TextStyle(fontSize: 25.0),
       ),
       actions: <Widget>[
-        new TextButton(
+        TextButton(
             onPressed: () {
               Navigator.pop(context);
             },
             child: const Text('No')),
-        new TextButton(
+        TextButton(
             onPressed: () {
               SystemChannels.platform.invokeMethod('SystemNavigator.pop');
             },

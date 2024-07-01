@@ -2,10 +2,13 @@ import 'dart:convert';
 
 import 'funciones_generales.dart';
 
-const String BASE_URL = 'https://be3b-38-51-176-35.ngrok-free.app';
+const String BASE_URL = 'https://df09-38-51-176-35.ngrok-free.app/';
 //const String BASE_URL = 'http://127.0.0.1:8000';
 //const String BASE_URL_IMAGEN="http://127.0.0.1:8000/storage/";  //se usa para evitar CROSS
-const String BASE_URL_IMAGEN = "https://be3b-38-51-176-35.ngrok-free.app/storage/"; //se usa para evitar CROSS
+const String BASE_URL_IMAGEN = "https://df09-38-51-176-35.ngrok-free.app/storage/"; //se usa para evitar CROSS
+
+const String BASE_URL_IMAGEN_PRODUCTS = "https://df09-38-51-176-35.ngrok-free.app"; //se usa para evitar CROSS
+
 
 //const String BASE_URL = 'http://10.0.1.112';
 

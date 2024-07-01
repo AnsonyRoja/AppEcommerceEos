@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:photo_view/photo_view.dart';
 import '/widget/icono_carrito.dart';
 import '../config.dart';
 import '../funciones_generales.dart';
@@ -23,13 +25,21 @@ class _productoState extends State<Producto>{
   var msj_mayor;
 
   @override
+  void initState() {
+    
+      print('Me monte');
+       super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
    // final proveedor = Provider.of<AuthBlock>(context);
     final Products args = ModalRoute.of(context)!.settings.arguments as Products;
-    guardarVisitaProducto(args.id!);
+  
+    // guardarVisitaProducto(args.id!);
     if(_status_favorite==false) {
       if(consultadoFavorito==false) {
-        consultarFavorito(args.id!);
+        // consultarFavorito(args.id!);
         consultadoFavorito=true;
       }
     }
@@ -56,34 +66,13 @@ class _productoState extends State<Producto>{
                 child: Stack(
                     alignment: Alignment.bottomRight,
                     children: <Widget>[
-                      Galeria(galleryItems:json.decode(args.image),imagenPrevia:args.image_previa),
-                     /*
-                      Center(
-                        child:PhotoView(
-                            backgroundDecoration: BoxDecoration(color: Colors.white),
-                            imageProvider: CachedNetworkImageProvider(
-                                    args.image,
-                              ),
-                            loadingBuilder: (context, _progress) => Center(
-                                          child: Container(
-                                            width: 20.0,
-                                            height: 20.0,
-                                            child: CircularProgressIndicator(
-                                              value: _progress == null
-                                                  ? null
-                                                  : _progress.cumulativeBytesLoaded /
-                                                      _progress.expectedTotalBytes,
-                                            ),
-                                          ),
-                                        ),
-
-                        )),*/
+                      Galeria(galleryItems:[args.image],imagenPrevia: args.image_previa!),
+                     
                       Padding(
-                          padding: EdgeInsets.only(right: 40),
+                          padding: const EdgeInsets.only(right: 40),
                           child: FloatingActionButton(
                                 mini: true,
-
-                                child: Icon(Pide.favorite,color: _status_favorite==false ? Colors.grey : Colors.red,) ,
+                                child: Icon(Icons.favorite,color: _status_favorite==false ? Colors.grey : Colors.red,) ,
                                 backgroundColor: Colors.white,
                                 onPressed: () async{
                                   if(await validarSesion()){
@@ -98,20 +87,20 @@ class _productoState extends State<Producto>{
                    
                     Container(
                       alignment: Alignment.bottomLeft,
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     child: args.promocion==1 ? new Container(
                       width: 80,
                       height: 20,
                       decoration: new BoxDecoration(
 
-                        color: Color(0xffF4901E),
+                        color: const Color(0xffF4901E),
                         borderRadius: new BorderRadius.all(
-                          Radius.circular(40.0),
+                          const Radius.circular(40.0),
                          
                         )
                       ),
-                      child: Center(child: Text('en oferta',style: TextStyle(color: Colors.white),)),
-                    ) : Text(''),
+                      child: const Center(child: Text('en oferta',style: TextStyle(color: Colors.white),)),
+                    ) : const Text(''),
                     
                     
                     
@@ -140,12 +129,12 @@ class _productoState extends State<Producto>{
                 child: Column(
                   children: <Widget>[
                     Container(
-                      alignment: Alignment(-1.0, -1.0),
+                      alignment: const Alignment(-1.0, -1.0),
                       child: Padding(
                         padding: const EdgeInsets.only(top: 15, bottom: 15),
                         child: Text(
                           args.name,
-                          style: TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.w600),
+                          style: const TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.w600),
                         ),
                       ),
                     ),
@@ -159,8 +148,8 @@ class _productoState extends State<Producto>{
                               Padding(
                                 padding: const EdgeInsets.only(right: 10.0),
                                 child: Text(
-                                  args.precio,
-                                  style: TextStyle(
+                                  args.precio.toString(),
+                                  style: const TextStyle(
                                     color: Colors.red,
                                     fontSize: 20,
                                     fontWeight: FontWeight.w600,
@@ -172,9 +161,11 @@ class _productoState extends State<Producto>{
                           ),
                           Row(
                             children: <Widget>[
-                              Rating(rating: args.rating,nombre: args.name,calificado_por_mi: args.calificado_por_mi,products_id: args.id,),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10.0),
+                              Container(
+                                width: 150,
+                                child: Rating(rating: args.rating,nombre: args.name,calificado_por_mi: args.calificado_por_mi,products_id: args.id,)),
+                              const Padding(
+                                padding: EdgeInsets.only(left: 10.0),
                                 child: Text(
                                     '',
                                     style: TextStyle(
@@ -188,22 +179,22 @@ class _productoState extends State<Producto>{
                         ],
                       ),
                     ),
-                    Divider(),
+                    const Divider(),
                     FutureBuilder(
                         future: mayorDeEdad(args.id!),
                         builder: (context, projectSnap) {
                           //return mayor ? AgregarProducto(precioBolivar: args.precioBolivar,precioDolar: args.precioDolar,id:args.id,stock: args.stock,pedidoMax:args.pedidoMax) : Text(msj_mayor,style: TextStyle(color:Colors.red),);
-                          return mayor ? AgregarProducto(precioBolivar: args.precioBolivar!,precioDolar: args.precioDolar!,id:args.id!,stock: args.stock!,pedidoMax:args.pedidoMax!) : Text(msj_mayor,style: TextStyle(color:Colors.red),);
+                          return mayor ? AgregarProducto(precioBolivar: args.precioBolivar!,precioDolar: args.precioDolar!,id:args.id!,stock: args.stock!,pedidoMax:args.pedidoMax!) : Text(msj_mayor,style: const TextStyle(color:Colors.red),);
 
                     }),
 
-                    Divider(),
+                    const Divider(),
                     Column(
                       children: <Widget>[
                         Container(
-                            alignment: Alignment(-1.0, -1.0),
-                            child: Padding(
-                              padding: const EdgeInsets.only(bottom: 10.0),
+                            alignment: const Alignment(-1.0, -1.0),
+                            child: const Padding(
+                              padding: EdgeInsets.only(bottom: 10.0),
                               child: Text(
                                 'Descripción',
                                 style: TextStyle(color: Colors.black, fontSize: 20,  fontWeight: FontWeight.w600),
@@ -212,18 +203,18 @@ class _productoState extends State<Producto>{
                         ),
 
                         Container(
-                            alignment: Alignment(-1.0, -1.0),
+                            alignment: const Alignment(-1.0, -1.0),
                             child: Padding(
                               padding: const EdgeInsets.only(bottom: 10.0),
                               child: Text(
                                args.description_short,
-                                style: TextStyle(color: Colors.black54, fontSize: 17),
+                                style: const TextStyle(color: Colors.black54, fontSize: 17),
                               ),
                             )
                         ),Container(
-                            alignment: Alignment(-1.0, -1.0),
-                            child: Padding(
-                              padding: const EdgeInsets.only(bottom: 10.0),
+                            alignment: const Alignment(-1.0, -1.0),
+                            child: const Padding(
+                              padding: EdgeInsets.only(bottom: 10.0),
                               child: Text(
                                '',
                                 style: TextStyle(color: Colors.black54, fontSize: 16),
